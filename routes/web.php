@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\adminController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,15 +18,19 @@ use App\Http\Controllers\admin\adminController;
 Route::get('/', function () {
     return view('welcome');
 });
-// Route::get('/home', [adminController::class, 'index']);
-// Route::get('/test', [adminController::class, 'test']);
 // admin
+// login admin
+Route::get('/admin/login', [adminController::class, 'login']);
+Route::post('/admin/login', [adminController::class, 'loginPost'])->name('admin.loginPost');
+Route::get('/admin/logout', [adminController::class, 'logout'])->name('admin.logout');
+Route::get('/admin/dashboard', [adminController::class, 'dashboard'])->name('admin.dashboard');
+
 Route::group(['prefix' => 'admin'], function () {
     Route::group(['prefix' => 'product'], function () {
         Route::get('list',  [adminController::class, 'getlist']);
-        Route::get('add', [adminController::class, 'add']);
+        Route::get('add', [adminController::class, 'getAdd']);
+        Route::get('add2', [adminController::class, 'insert']);
         Route::get('edit', [adminController::class, 'edit']);
-
         // Route::post('add2', 'admin\ProductController@insert');
         // Route::get('edit/{id}', 'admin\ProductController@getEdit')->name('getEdit-product');
         // Route::post('edit/{id}', 'admin\ProductController@postEdit')->name('postEdit-product');
